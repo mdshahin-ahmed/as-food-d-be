@@ -1,0 +1,52 @@
+Model Diagram Link: https://lucid.app/lucidchart/c83bfefb-90a7-47f8-aa20-092e75a83564/edit?beaconFlowId=CDD1F0F4CE50E36B&invitationId=inv_494d1ed3-41ee-4f17-9e2d-38bc587914f3&page=0_0#
+
+// Api For Category
+3. Create Category *********Done**********
+method: POST
+end points: /api/categories
+4. Get all categories *********Done*********
+method: GET
+end points: /api/categories
+
+// Api For Course
+1. Create a Course **********Done*******
+method: POST
+end points: /api/course
+2. get Paginated and filtered Course.********Done*********
+method: GET
+end points: /api/courses
+
+// pagination
+. page => page
+. limit => limit
+
+// sorting
+. sortBy => sort
+    => title,price,startDate,endDate,language,duration
+    => Ex: ?sort=startDate
+. sortOrder => sort
+    => asc, desc
+
+// filtering => need to exact match => language="English"
+. minPrice , maxPrice => filter
+. tags => filter
+. startDate, endDate => filter
+. language => filter 
+. provider => filter 
+. durationWeeks => filter
+. level => filter
+
+6. Update a course **********Done****************
+method: PUT
+end points: /api/courses/:courseId
+7. Get course by id with reviews (populate) ********Done*****
+method: GET
+end points: /api/courses/:courseId/reviews
+8. Get the Best Course Based on Average Review (Rating) ********Done********
+method: GET
+end points: /api/course/best
+
+// Api For Review
+5. Create a review ********Done*****
+method: POST
+end points: /api/reviews
