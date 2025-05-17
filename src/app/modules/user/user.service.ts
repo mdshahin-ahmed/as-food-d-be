@@ -29,13 +29,15 @@ const createAdminIntoDB = async (payload: IUser) => {
     Number(config.bcrypt_salt_rounds),
   )
 
-  const result = await User.create(payload)
+  const userData = {
+    ...payload,
+    userId: payload?.mobile?.slice(-4),
+  }
+
+  const result = await User.create(userData)
 
   return {
     username: result.name,
-    email: result.email,
-    role: result.role,
-    _id: result._id,
   }
 }
 

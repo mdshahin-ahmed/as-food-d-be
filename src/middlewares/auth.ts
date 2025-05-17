@@ -5,6 +5,7 @@ import AppError from '../app/errors/app.error'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import config from '../app/config'
 import { TRole } from '../app/modules/user/user.interface'
+import { User } from '../app/modules/user/user.model'
 
 const auth = (...requiredRoles: TRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -24,6 +25,15 @@ const auth = (...requiredRoles: TRole[]) => {
       token,
       config.jwt_access_secret as string,
     ) as JwtPayload
+
+    const users = await User.findById(decoded?._id)
+    if (!users) {
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        'Unauthorized Access.',
+        'You do not have the necessary permissions to access this resource.',
+      )
+    }
 
     const role = decoded.role
     if (requiredRoles && !requiredRoles.includes(role)) {

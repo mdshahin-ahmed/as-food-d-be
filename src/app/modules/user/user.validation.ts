@@ -39,7 +39,7 @@ const createAdminValidationSchema = Joi.object({
     address: Joi.string().min(3).max(50).required(),
     area: Joi.string().min(1).max(30).required(),
     password: Joi.string().min(5).max(30).required(),
-    userId: Joi.string().required(),
+    // userId: Joi.string().required(),
     role: Joi.string().valid('admin', 'employee', 'user').required().messages({
       'string.base': 'Role must be a text.',
       'any.only': 'Role must be one of admin or employee or user',
@@ -66,7 +66,7 @@ const updateUserValidationSchema = Joi.object({
       }),
     address: Joi.string().min(3).max(50).optional(),
     area: Joi.string().min(1).max(30).optional(),
-    userId: Joi.string().optional(),
+    // userId: Joi.string().optional(),
     role: Joi.string().valid('admin', 'employee', 'user').optional().messages({
       'string.base': 'Role must be a text.',
       'any.only': 'Role must be one of admin or employee or user',
