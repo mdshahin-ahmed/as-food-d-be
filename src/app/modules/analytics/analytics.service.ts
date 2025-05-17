@@ -1,5 +1,5 @@
 import { startOfDay, subDays, eachDayOfInterval, format } from 'date-fns'
-import { Order } from '../order/order.model'
+import { Order } from '../MBill/mbill.model'
 import { Expense } from '../expense/expense.model'
 
 const getDailyAnalytics = async () => {

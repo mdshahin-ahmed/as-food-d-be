@@ -5,7 +5,7 @@ import { balanceRoutes } from '../modules/balance/balance.routes'
 import { cancelReqRoute } from '../modules/cancelreq/cancelreq.routes'
 import { expenseRoutes } from '../modules/expense/expense.routes'
 import { billRoutes } from '../modules/bill/bill.routes'
-import { orderRoutes } from '../modules/order/order.routes'
+import { mBillRoutes } from '../modules/MBill/mbill.routes'
 import { otpRoute } from '../modules/otp/otp.routes'
 import { statementRoutes } from '../modules/statement/statement.routes'
 import { userRouter } from '../modules/user/user.route'
@@ -27,8 +27,8 @@ const moduleRoutes = [
     route: billRoutes,
   },
   {
-    path: '/order',
-    route: orderRoutes,
+    path: '/mbill',
+    route: mBillRoutes,
   },
   {
     path: '/statement',
