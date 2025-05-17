@@ -73,6 +73,16 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
     data: result,
   })
 })
+const updateUserStatus = catchAsync(async (req: Request, res: Response) => {
+  const id = req?.params?.id
+  const result = await userServices.updateUserStatus(id)
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'User status updated successfully!',
+    data: result,
+  })
+})
 
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
   const id = req?.params?.id
@@ -94,4 +104,5 @@ export const userControllers = {
   updateUser,
   getUserById,
   deleteUser,
+  updateUserStatus,
 }

@@ -18,6 +18,7 @@ router.patch(
   validateData(userValidations.imageUrlValidationSchema),
   userControllers.updateUserProfile,
 )
+router.patch('/:id/status', auth(ROLE.admin), userControllers.updateUserStatus)
 router.get('/:id', auth(ROLE.admin), userControllers.getUserById)
 router.patch(
   '/:id',

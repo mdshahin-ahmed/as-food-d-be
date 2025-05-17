@@ -126,6 +126,27 @@ const updateUser = async (id: string, payload: IUser) => {
   })
   return result
 }
+const updateUserStatus = async (id: string) => {
+  const isUserExists = await User.findById(id)
+  if (!isUserExists) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'User not found',
+      'User not found!',
+    )
+  }
+
+  const result = await User.findByIdAndUpdate(
+    id,
+    { isActive: !isUserExists?.isActive },
+    {
+      new: true,
+    },
+  )
+  return {
+    isActive: result?.isActive,
+  }
+}
 
 const deleteUser = async (id: string) => {
   const isUserExists = await User.findById(id)
@@ -150,4 +171,5 @@ export const userServices = {
   updateUser,
   getUserById,
   deleteUser,
+  updateUserStatus,
 }

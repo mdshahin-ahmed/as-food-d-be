@@ -44,6 +44,11 @@ const userSchema = new Schema<IUser>(
       type: String,
       enum: ['admin', 'employee', 'user'],
     },
+    isActive: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
   },
   {
     timestamps: true,
