@@ -4,7 +4,7 @@ import { authRouter } from '../modules/auth/auth.route'
 import { balanceRoutes } from '../modules/balance/balance.routes'
 import { cancelReqRoute } from '../modules/cancelreq/cancelreq.routes'
 import { expenseRoutes } from '../modules/expense/expense.routes'
-import { mealRoutes } from '../modules/meal/meal.routes'
+import { billRoutes } from '../modules/bill/bill.routes'
 import { orderRoutes } from '../modules/order/order.routes'
 import { otpRoute } from '../modules/otp/otp.routes'
 import { statementRoutes } from '../modules/statement/statement.routes'
@@ -23,8 +23,8 @@ const moduleRoutes = [
     route: userRouter,
   },
   {
-    path: '/meal',
-    route: mealRoutes,
+    path: '/bill',
+    route: billRoutes,
   },
   {
     path: '/order',

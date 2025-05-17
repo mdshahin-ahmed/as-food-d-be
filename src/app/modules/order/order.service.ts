@@ -3,7 +3,7 @@ import { JwtPayload } from 'jsonwebtoken'
 import { User } from '../user/user.model'
 import httpStatus from 'http-status'
 import AppError from '../../errors/app.error'
-import { Meal } from '../meal/meal.model'
+import { Meal } from '../bill/bill.model'
 import { Order } from './order.model'
 import { startSession } from 'mongoose'
 import QueryBuilder from '../../builder/QueryBuilder'
@@ -54,14 +54,6 @@ const createOrderIntoDB = async (user: JwtPayload, id: string) => {
         )
       }
 
-      if (isUserExists?.balance < isMealExist?.price) {
-        throw new AppError(
-          httpStatus.BAD_REQUEST,
-          'You have no enough balance!',
-          'You have no enough balance!. Please Recharge',
-        )
-      }
-
       // Decrease quantity
 
       const mealQuantity = await Meal.findByIdAndUpdate(
@@ -82,21 +74,6 @@ const createOrderIntoDB = async (user: JwtPayload, id: string) => {
 
       // Cut balance
 
-      const cutBalance = await User.findByIdAndUpdate(
-        isUserExists?._id,
-        {
-          balance: isUserExists?.balance - isMealExist?.price,
-        },
-        { session, new: true },
-      )
-
-      if (!cutBalance?.balance && cutBalance?.balance !== 0) {
-        throw new AppError(
-          httpStatus.INTERNAL_SERVER_ERROR,
-          'Internal Server Error',
-          'Something Went Wrong',
-        )
-      }
       // Find the last order to generate uId
       const lastOrder = await Order.findOne()
         .sort({ createdAt: -1 })
