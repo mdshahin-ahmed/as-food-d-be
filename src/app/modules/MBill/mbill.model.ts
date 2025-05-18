@@ -21,6 +21,13 @@ const orderSchema = new Schema<IMBill>(
       type: String,
       required: true,
     },
+    area: {
+      type: String,
+      required: true,
+    },
+    employeeId: {
+      type: String,
+    },
     userId: { type: String, required: true },
     status: {
       type: String,

@@ -6,5 +6,7 @@ export interface IMBill {
   monthName: string
   userId: string
   mobile: string
+  area: string
+  employeeId: string
   status: 'pending' | 'paid' | 'approve' | 'cancel'
 }

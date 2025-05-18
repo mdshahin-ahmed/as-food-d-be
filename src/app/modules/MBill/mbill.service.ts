@@ -6,24 +6,24 @@ import { mBillSearchableFields } from './mbill.constant'
 import { MBill } from './mbill.model'
 
 const createMBillIntoDB = async () => {
-  console.log('test')
-
   const bill = {
-    _id: '6828941dcea79e54869c9887',
-    monthName: 'January',
+    _id: '6828c7ee6ada329f9f93a519',
+    monthName: 'February',
   }
   const user = {
     _id: '682889585f4584f4517e690c',
-    userId: '4437',
+    userId: '6057',
     mobile: '01622006057',
+    area: 'karatiya',
   }
 
   const data = {
     bill: bill._id,
+    monthName: bill.monthName,
     user: user?._id,
     mobile: user?.mobile,
     userId: user?.userId,
-    monthName: bill.monthName,
+    area: user?.area,
   }
 
   const result = await MBill.create(data)
@@ -135,7 +135,8 @@ const getMBillFromDB = async (
   // return result
   const ordersQuery = new QueryBuilder(
     MBill.find()
-    .populate('bill', 'price'),
+      .populate('user', 'name isActive area address')
+      .populate('bill', 'price'),
     query,
     user,
   )
