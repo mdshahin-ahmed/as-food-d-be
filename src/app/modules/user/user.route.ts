@@ -8,13 +8,18 @@ const router = express.Router()
 
 router.get(
   '/me',
-  auth(ROLE.admin, ROLE.user, ROLE.manager),
+  auth(ROLE.admin, ROLE.user, ROLE.employee),
   userControllers.getMe,
 )
 router.get('/all', auth(ROLE.admin), userControllers.getUsers)
+router.get(
+  '/employee',
+  auth(ROLE.admin, ROLE.employee),
+  userControllers.getEmployeesFromDB,
+)
 router.patch(
   '/profile',
-  auth(ROLE.admin, ROLE.user, ROLE.manager),
+  auth(ROLE.admin, ROLE.user, ROLE.employee),
   validateData(userValidations.imageUrlValidationSchema),
   userControllers.updateUserProfile,
 )

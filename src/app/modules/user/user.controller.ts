@@ -95,6 +95,16 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getEmployeesFromDB = catchAsync(async (req: Request, res: Response) => {
+  const result = await userServices.getEmployeesFromDB()
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Employee retrieved successfully!',
+    data: result,
+  })
+})
+
 export const userControllers = {
   createUser,
   createAdmin,
@@ -105,4 +115,5 @@ export const userControllers = {
   getUserById,
   deleteUser,
   updateUserStatus,
+  getEmployeesFromDB,
 }

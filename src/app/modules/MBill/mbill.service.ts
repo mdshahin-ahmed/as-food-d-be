@@ -7,7 +7,6 @@ import { MBill } from './mbill.model'
 import AppError from '../../errors/app.error'
 import httpStatus from 'http-status'
 import { User } from '../user/user.model'
-import { stat } from 'fs'
 
 const createMBillIntoDB = async () => {
   // const bill = {

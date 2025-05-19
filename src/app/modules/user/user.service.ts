@@ -7,6 +7,7 @@ import { IUser } from './user.interface'
 import { User } from './user.model'
 import QueryBuilder from '../../builder/QueryBuilder'
 import { userSearchableFields } from './user.constant'
+import { capitalize } from '../../utils/helper'
 
 const createUserIntoDB = async (payload: IUser) => {
   payload.password = await bcrypt.hash(
@@ -161,6 +162,22 @@ const deleteUser = async (id: string) => {
   const result = await User.findByIdAndDelete(id)
   return result
 }
+const getEmployeesFromDB = async () => {
+  const result = await User.find(
+    {
+      role: ['admin', 'employee'],
+    },
+    {
+      userId: 1,
+      name: 1,
+    },
+  )
+  return result.map((user) => ({
+    key: user.userId,
+    value: user._id,
+    text: capitalize(user.name),
+  }))
+}
 
 export const userServices = {
   createUserIntoDB,
@@ -172,4 +189,5 @@ export const userServices = {
   getUserById,
   deleteUser,
   updateUserStatus,
+  getEmployeesFromDB,
 }
