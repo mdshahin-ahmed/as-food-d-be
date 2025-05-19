@@ -29,19 +29,20 @@ const getMBillFromDB = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-// const updateOrderStatus = catchAsync(async (req: Request, res: Response) => {
-//   const id = req?.params?.id
-//   const status = req.body
+const updateBillStatusPaid = catchAsync(async (req: Request, res: Response) => {
+  const id = req?.params?.id
+  const payload = req.body
+  const user = req.user
 
-//   const result = await orderServices.updateOrderStatus(id, status)
+  const result = await mBillServices.updateBillStatusPaid(id, payload, user)
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: 200,
-//     message: 'Order updated successfully',
-//     data: result,
-//   })
-// })
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Bill Paid',
+    data: result,
+  })
+})
 
 // const cancelOrder = catchAsync(async (req: Request, res: Response) => {
 //   const id = req?.params?.id
@@ -60,6 +61,6 @@ const getMBillFromDB = catchAsync(async (req: Request, res: Response) => {
 export const mBillControllers = {
   createMBillIntoDB,
   getMBillFromDB,
-  // updateOrderStatus,
+  updateBillStatusPaid,
   // cancelOrder,
 }

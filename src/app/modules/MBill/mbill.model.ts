@@ -13,6 +13,10 @@ const orderSchema = new Schema<IMBill>(
       ref: 'Bill',
       required: true,
     },
+    paidBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
     mobile: {
       type: String,
       required: true,
@@ -25,9 +29,7 @@ const orderSchema = new Schema<IMBill>(
       type: String,
       required: true,
     },
-    employeeId: {
-      type: String,
-    },
+
     userId: { type: String, required: true },
     status: {
       type: String,

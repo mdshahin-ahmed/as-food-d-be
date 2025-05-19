@@ -15,6 +15,11 @@ router.get(
   auth(ROLE.admin, ROLE.user, ROLE.employee),
   mBillControllers.getMBillFromDB,
 )
+router.patch(
+  '/:id/paid',
+  auth(ROLE.admin, ROLE.employee),
+  mBillControllers.updateBillStatusPaid,
+)
 // router.patch(
 //   '/cancel/:id',
 //   auth(ROLE.admin, ROLE.manager),

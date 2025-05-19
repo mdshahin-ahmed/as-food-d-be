@@ -4,6 +4,10 @@ import { JwtPayload } from 'jsonwebtoken'
 import QueryBuilder from '../../builder/QueryBuilder'
 import { mBillSearchableFields } from './mbill.constant'
 import { MBill } from './mbill.model'
+import AppError from '../../errors/app.error'
+import httpStatus from 'http-status'
+import { User } from '../user/user.model'
+import { stat } from 'fs'
 
 const createMBillIntoDB = async () => {
   // const bill = {
@@ -37,7 +41,8 @@ const getMBillFromDB = async (
   const ordersQuery = new QueryBuilder(
     MBill.find()
       .populate('user', 'name isActive area address')
-      .populate('bill', 'price'),
+      .populate('bill', 'price')
+      .populate('paidBy', 'name'),
     query,
     user,
   )
@@ -56,86 +61,43 @@ const getMBillFromDB = async (
   }
 }
 
-// const updateOrderStatus = async (id: string, status: { status: string }) => {
-//   const isMealExist = await Order.findById(id)
-//   if (!isMealExist) {
-//     throw new AppError(
-//       httpStatus.NOT_FOUND,
-//       'Order not found',
-//       'Order not found!',
-//     )
-//   }
+const updateBillStatusPaid = async (
+  id: string,
+  payload: { status: string },
+  user: JwtPayload,
+) => {
+  const isBillExist = await MBill.findById(id)
+  if (!isBillExist) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Bill not found',
+      'Bill not found!',
+    )
+  }
+  const isPaidByExist = await User.findById(user?._id)
+  if (!isPaidByExist || !isPaidByExist?.isActive) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'You have no access to paid',
+      'You have no access to paid',
+    )
+  }
 
-//   const result = await Order.findByIdAndUpdate(id, status, {
-//     new: true,
-//   })
-//   return result
-// }
+  const data = {
+    status: payload?.status,
+    paidBy: isPaidByExist?._id,
+  }
 
-// const cancelOrder = async (id: string, status: { status: string }) => {
-//   const session = await startSession()
-
-//   try {
-//     const result = await session.withTransaction(async () => {
-//       // check meal is exist
-//       const isOrderExist = await Order.findById(id)
-//       if (!isOrderExist) {
-//         throw new AppError(
-//           httpStatus.NOT_FOUND,
-//           'Order not found',
-//           'Order not found!',
-//         )
-//       }
-//       // check user exist
-//       const isUserExists = await User.findById(isOrderExist?.user).session(
-//         session,
-//       )
-
-//       if (!isUserExists) {
-//         throw new AppError(
-//           httpStatus.NOT_FOUND,
-//           'User not found',
-//           'User not found!',
-//         )
-//       }
-
-//       // add balance
-//       const addBalance = await User.findByIdAndUpdate(
-//         isUserExists?._id,
-//         {
-//           balance: Number(isUserExists?.balance) + Number(isOrderExist?.price),
-//         },
-//         { session, new: true },
-//       )
-
-//       if (!addBalance?.balance) {
-//         throw new AppError(
-//           httpStatus.INTERNAL_SERVER_ERROR,
-//           'Internal Server Error',
-//           'Something Went Wrong',
-//         )
-//       }
-
-//       const result = await Order.findByIdAndUpdate(id, status, {
-//         new: true,
-//       })
-//       return result
-//     })
-//     return result
-//   } catch (error: any) {
-//     throw new AppError(
-//       httpStatus.BAD_REQUEST,
-//       error?.message || 'Order Canceled Failed',
-//       error?.errorMessage || 'Order Canceled Failed',
-//     )
-//   } finally {
-//     session.endSession()
-//   }
-// }
+  const result = await MBill.findByIdAndUpdate(isBillExist?._id, data, {
+    new: true,
+  })
+  return {
+    status: result?.status,
+  }
+}
 
 export const mBillServices = {
   createMBillIntoDB,
   getMBillFromDB,
-  // updateOrderStatus,
-  // cancelOrder,
+  updateBillStatusPaid,
 }
