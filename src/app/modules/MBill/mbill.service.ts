@@ -41,7 +41,8 @@ const getMBillFromDB = async (
     MBill.find()
       .populate('user', 'name isActive area address')
       .populate('bill', 'price')
-      .populate('paidBy', 'name'),
+      .populate('paidBy', 'name')
+      .populate('approvedBy', 'name'),
     query,
     user,
   )
@@ -95,8 +96,51 @@ const updateBillStatusPaid = async (
   }
 }
 
+const updateBillStatusApprove = async (
+  payload: { ids: string[]; status: string },
+  user: JwtPayload,
+) => {
+  // Validate the user making the request
+  const isApprovedByExist = await User.findById(user?._id)
+  if (!isApprovedByExist || !isApprovedByExist?.isActive) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'You have no access to approve',
+      'You have no access to approve',
+    )
+  }
+
+  // Check if all bills exist
+  const bills = await MBill.find({ _id: { $in: payload?.ids } })
+  if (bills.length !== payload?.ids?.length) {
+    const foundIds = bills.map((bill) => bill._id.toString())
+    const missingIds = payload?.ids?.filter((id) => !foundIds.includes(id))
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      `Some bills not found: ${missingIds.join(', ')}`,
+      'Bill approval failed',
+    )
+  }
+
+  // Update all bills in a single operation
+  const result = await MBill.updateMany(
+    { _id: { $in: payload?.ids } },
+    {
+      status: payload.status,
+      approvedBy: isApprovedByExist._id,
+    },
+    { new: true },
+  )
+
+  return {
+    modifiedCount: result.modifiedCount,
+    status: payload.status,
+  }
+}
+
 export const mBillServices = {
   createMBillIntoDB,
   getMBillFromDB,
   updateBillStatusPaid,
+  updateBillStatusApprove,
 }

@@ -17,6 +17,10 @@ const orderSchema = new Schema<IMBill>(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    approvedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
     mobile: {
       type: String,
       required: true,

@@ -16,6 +16,11 @@ router.get(
   mBillControllers.getMBillFromDB,
 )
 router.patch(
+  '/approved',
+  auth(ROLE.admin),
+  mBillControllers.updateBillStatusApprove,
+)
+router.patch(
   '/:id/paid',
   auth(ROLE.admin, ROLE.employee),
   mBillControllers.updateBillStatusPaid,
