@@ -3,6 +3,7 @@ import { authRouter } from '../modules/auth/auth.route'
 import { mBillRoutes } from '../modules/MBill/mbill.routes'
 import { otpRoute } from '../modules/otp/otp.routes'
 import { userRouter } from '../modules/user/user.route'
+import { billRoutes } from '../modules/bill/bill.routes'
 
 const router = Router()
 
@@ -18,6 +19,10 @@ const moduleRoutes = [
   {
     path: '/mbill',
     route: mBillRoutes,
+  },
+  {
+    path: '/bill',
+    route: billRoutes,
   },
   {
     path: '/otp',
