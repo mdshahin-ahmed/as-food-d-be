@@ -21,10 +21,6 @@ const BillSchema = new Schema<IBill>(
         'December',
       ],
     },
-    price: {
-      type: Number,
-      required: true,
-    },
   },
   {
     timestamps: true,

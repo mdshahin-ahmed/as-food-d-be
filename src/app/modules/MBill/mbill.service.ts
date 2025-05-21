@@ -39,7 +39,7 @@ const getMBillFromDB = async (
   // return result
   const ordersQuery = new QueryBuilder(
     MBill.find()
-      .populate('user', 'name isActive area address')
+      .populate('user', 'name isActive area address bill')
       .populate('bill', 'price')
       .populate('paidBy', 'name')
       .populate('approvedBy', 'name'),

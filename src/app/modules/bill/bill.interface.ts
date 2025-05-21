@@ -12,5 +12,4 @@ export interface IBill {
     | 'October'
     | 'November'
     | 'December'
-  price: number
 }

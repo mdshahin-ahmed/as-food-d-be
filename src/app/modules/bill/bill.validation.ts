@@ -19,8 +19,6 @@ const createBillValidationSchema = Joi.object({
       )
       .required()
       .label('Month'),
-
-    price: Joi.number().positive().required().label('Amount'),
   }),
 })
 
