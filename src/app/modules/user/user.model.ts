@@ -40,6 +40,11 @@ const userSchema = new Schema<IUser>(
       required: true,
       unique: true,
     },
+    bill: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     role: {
       type: String,
       enum: ['admin', 'employee', 'user'],

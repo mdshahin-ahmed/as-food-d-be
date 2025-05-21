@@ -9,6 +9,7 @@ export interface IUser {
   password: string
   userId: string
   imageUrl: string
+  bill: number
   isActive: boolean
   role: 'admin' | 'employee' | 'user'
 }

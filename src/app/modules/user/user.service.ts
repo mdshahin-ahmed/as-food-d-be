@@ -78,19 +78,19 @@ const getUsers = async (query: Record<string, unknown>) => {
   const meta = await usersQuery.countTotal()
   const result = await usersQuery.modelQuery
 
-  const totalBalance = await User.aggregate([
-    {
-      $group: {
-        _id: null,
-        totalBalance: { $sum: '$balance' },
-      },
-    },
-  ])
+  // const totalBalance = await User.aggregate([
+  //   {
+  //     $group: {
+  //       _id: null,
+  //       totalBalance: { $sum: '$balance' },
+  //     },
+  //   },
+  // ])
 
   return {
     meta,
     result,
-    totalBalance: totalBalance[0]?.totalBalance,
+    // totalBalance: totalBalance[0]?.totalBalance,
   }
 }
 

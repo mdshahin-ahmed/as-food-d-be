@@ -37,6 +37,7 @@ const createAdminValidationSchema = Joi.object({
         'any.required': 'Mobile number is required.',
       }),
     address: Joi.string().min(3).max(50).required(),
+    bill: Joi.number().positive().required(),
     area: Joi.string().min(1).max(30).required(),
     password: Joi.string().min(5).max(30).required(),
     // userId: Joi.string().required(),
@@ -64,6 +65,24 @@ const updateUserValidationSchema = Joi.object({
         'string.pattern.base': 'Please provide a valid number',
         'any.required': 'Mobile number is required.',
       }),
+    bill: Joi.when('role', {
+      switch: [
+        {
+          is: 'user',
+          then: Joi.number().positive().required().messages({
+            'number.positive': 'Bill must be a positive number',
+          }),
+        },
+        {
+          is: Joi.valid('admin', 'employee'),
+          then: Joi.number().min(0).required().messages({
+            'number.base': 'Bill must be a number.',
+            'number.min': 'Bill must be 0 or a positive number',
+          }),
+        },
+      ],
+      otherwise: Joi.forbidden(),
+    }),
     address: Joi.string().min(3).max(50).optional(),
     area: Joi.string().min(1).max(30).optional(),
     // userId: Joi.string().optional(),
