@@ -5,9 +5,9 @@ export interface IMBill {
   bill: Types.ObjectId
   paidBy: Types.ObjectId
   approvedBy: Types.ObjectId
+  area: Types.ObjectId
   monthName: string
   userId: string
   mobile: string
-  area: string
   status: 'pending' | 'paid' | 'approve' | 'cancel'
 }

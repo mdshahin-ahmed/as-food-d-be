@@ -11,10 +11,11 @@ router.post(
   mBillControllers.createMBillIntoDB,
 )
 router.get(
-  '/',
+  '/pending',
   auth(ROLE.admin, ROLE.user, ROLE.employee),
-  mBillControllers.getMBillFromDB,
+  mBillControllers.getPendingMBillFromDB,
 )
+router.get('/', auth(ROLE.admin), mBillControllers.getMBillFromDB)
 router.patch(
   '/approved',
   auth(ROLE.admin),

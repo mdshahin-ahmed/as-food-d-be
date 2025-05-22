@@ -1,10 +1,11 @@
+import { Types } from 'mongoose'
 import { ROLE } from './user.constant'
 
 export interface IUser {
   name: string
   email: string
   mobile: string
-  area: string
+  area: Types.ObjectId
   address: string
   password: string
   userId: string

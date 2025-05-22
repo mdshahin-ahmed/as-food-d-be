@@ -22,7 +22,31 @@ const getAreasFromDB = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: 200,
-    message: 'Order retrieved successfully',
+    message: 'Area retrieved successfully',
+    data: result,
+  })
+})
+const getAreasListFromDB = catchAsync(async (req: Request, res: Response) => {
+  const result = await areaServices.getAreasListFromDB()
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Area list retrieved successfully',
+    data: result,
+  })
+})
+
+const updateAreaIntoDB = catchAsync(async (req: Request, res: Response) => {
+  const id = req?.params?.id
+  const data = req?.body
+  const user = req?.user
+  const result = await areaServices.updateAreaIntoDB(id, data, user)
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Area updated',
     data: result,
   })
 })
@@ -30,4 +54,6 @@ const getAreasFromDB = catchAsync(async (req: Request, res: Response) => {
 export const areaControllers = {
   createAreaIntoDB,
   getAreasFromDB,
+  updateAreaIntoDB,
+  getAreasListFromDB,
 }

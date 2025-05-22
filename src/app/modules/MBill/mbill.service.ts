@@ -31,6 +31,36 @@ const createMBillIntoDB = async () => {
   // return result
 }
 
+const getPendingMBillFromDB = async (
+  query: Record<string, unknown>,
+  user: JwtPayload,
+) => {
+  // const result = await Order.find({}).populate('user', 'name')
+  // return result
+  const ordersQuery = new QueryBuilder(
+    MBill.find()
+      .populate('user', 'name isActive area address bill imageUrl')
+      .populate('bill', 'price')
+      .populate('paidBy', 'name  imageUrl')
+      .populate('approvedBy', 'name  imageUrl')
+      .populate('area', 'name'),
+    query,
+    user,
+  )
+    .search(mBillSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields()
+
+  const meta = await ordersQuery.countTotal()
+  const result = await ordersQuery.modelQuery
+
+  return {
+    meta,
+    result,
+  }
+}
 const getMBillFromDB = async (
   query: Record<string, unknown>,
   user: JwtPayload,
@@ -39,10 +69,11 @@ const getMBillFromDB = async (
   // return result
   const ordersQuery = new QueryBuilder(
     MBill.find()
-      .populate('user', 'name isActive area address bill')
+      .populate('user', 'name isActive area address bill imageUrl')
       .populate('bill', 'price')
-      .populate('paidBy', 'name')
-      .populate('approvedBy', 'name'),
+      .populate('paidBy', 'name  imageUrl')
+      .populate('approvedBy', 'name  imageUrl')
+      .populate('area', 'name'),
     query,
     user,
   )
@@ -143,4 +174,5 @@ export const mBillServices = {
   getMBillFromDB,
   updateBillStatusPaid,
   updateBillStatusApprove,
+  getPendingMBillFromDB,
 }

@@ -68,7 +68,10 @@ const getUserById = async (id: string) => {
 }
 const getUsers = async (query: Record<string, unknown>) => {
   // checking if the user is exist
-  const usersQuery = new QueryBuilder(User.find(), query)
+  const usersQuery = new QueryBuilder(
+    User.find().populate('area', 'name'),
+    query,
+  )
     .search(userSearchableFields)
     .filter()
     .sort()

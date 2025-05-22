@@ -21,6 +21,10 @@ const orderSchema = new Schema<IMBill>(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    area: {
+      type: Schema.Types.ObjectId,
+      ref: 'Area',
+    },
     mobile: {
       type: String,
       required: true,
@@ -29,11 +33,6 @@ const orderSchema = new Schema<IMBill>(
       type: String,
       required: true,
     },
-    area: {
-      type: String,
-      required: true,
-    },
-
     userId: { type: String, required: true },
     status: {
       type: String,

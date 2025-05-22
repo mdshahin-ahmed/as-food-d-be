@@ -22,8 +22,8 @@ const userSchema = new Schema<IUser>(
       required: true,
     },
     area: {
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'Area',
     },
     password: {
       type: String,

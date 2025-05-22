@@ -24,10 +24,24 @@ const getMBillFromDB = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: 200,
-    message: 'Order retrieved successfully',
+    message: 'Monthly Bill retrieved successfully',
     data: result,
   })
 })
+const getPendingMBillFromDB = catchAsync(
+  async (req: Request, res: Response) => {
+    const query = req.query
+    const user = req.user
+    const result = await mBillServices.getMBillFromDB(query, user)
+
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: 'Monthly Bill successfully',
+      data: result,
+    })
+  },
+)
 
 const updateBillStatusPaid = catchAsync(async (req: Request, res: Response) => {
   const id = req?.params?.id
@@ -64,4 +78,5 @@ export const mBillControllers = {
   getMBillFromDB,
   updateBillStatusPaid,
   updateBillStatusApprove,
+  getPendingMBillFromDB,
 }
