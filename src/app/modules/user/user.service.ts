@@ -44,7 +44,10 @@ const createAdminIntoDB = async (payload: IUser) => {
 
 const getMe = async (payload: JwtPayload) => {
   // checking if the user is exist
-  const isUserExists = await User.findById(payload?._id)
+  const isUserExists = await User.findById(payload?._id).populate(
+    'area',
+    'name',
+  )
   if (!isUserExists) {
     throw new AppError(
       httpStatus.NOT_FOUND,
@@ -56,7 +59,7 @@ const getMe = async (payload: JwtPayload) => {
 }
 const getUserById = async (id: string) => {
   // checking if the user is exist
-  const isUserExists = await User.findById(id).populate('area', 'name')
+  const isUserExists = await User.findById(id)
   if (!isUserExists) {
     throw new AppError(
       httpStatus.NOT_FOUND,
