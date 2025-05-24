@@ -56,7 +56,7 @@ const getMe = async (payload: JwtPayload) => {
 }
 const getUserById = async (id: string) => {
   // checking if the user is exist
-  const isUserExists = await User.findById(id)
+  const isUserExists = await User.findById(id).populate('area', 'name')
   if (!isUserExists) {
     throw new AppError(
       httpStatus.NOT_FOUND,
